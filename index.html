@@ -3,167 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кот-Ромашка | Главный Мем Вселенной</title>
+    <title>Мой Мега-Кликер</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            user-select: none; /* Чтобы текст не выделялся при частых кликах */
         }
 
         body {
-            background: linear-gradient(135deg, #fffde7 0%, #fff9c4 100%);
-            color: #3e2723;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #2c3e50;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 20px;
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
         .container {
-            max-width: 600px;
-            background: rgba(255, 255, 255, 0.85);
-            padding: 40px 30px;
-            border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(251, 192, 45, 0.2);
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
             backdrop-filter: blur(10px);
-            border: 2px solid #fff59d;
+            border: 2px solid #ffffff;
             text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .container:hover {
-            transform: translateY(-5px);
         }
 
         h1 {
-            font-size: 2.5rem;
-            color: #fbc02d;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            color: #34495e;
         }
 
-        .subtitle {
-            font-size: 1.1rem;
-            color: #795548;
-            margin-bottom: 30px;
-            font-style: italic;
+        .counter-container {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #2980b9;
+            margin: 15px 0;
+            text-shadow: 1px 1px 0px #fff;
         }
 
-        .image-container {
+        .click-area {
             position: relative;
             display: inline-block;
-            margin-bottom: 30px;
+            margin: 20px 0;
+            cursor: pointer;
         }
 
-        /* Загружаем изображение напрямую по ссылке */
-        .cat-flower-img {
+        /* Главное изображение-кнопка */
+        .click-image {
             max-width: 250px;
             width: 100%;
+            height: 250px;
+            object-fit: cover; /* Чтобы картинка не искажалась, если она квадратная */
             border-radius: 50%;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            animation: float 4s ease-in-out infinite;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transition: transform 0.05s ease-in-out;
         }
 
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(2deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
+        /* Эффект сжатия при клике на картинку */
+        .click-image:active {
+            transform: scale(0.92);
         }
 
-        .fact-box {
-            background: #fff;
-            padding: 20px;
-            border-radius: 16px;
-            border-left: 5px solid #fbc02d;
-            margin-bottom: 25px;
-            text-align: left;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-        }
-
-        .fact-box p {
-            font-size: 1rem;
-            line-height: 1.5;
-            color: #5d4037;
-        }
-
-        .btn {
-            background: #fbc02d;
-            color: #fff;
-            border: none;
-            padding: 12px 28px;
-            font-size: 1rem;
+        /* Всплывающие циферки +1 */
+        .floating-text {
+            position: absolute;
+            font-size: 1.8rem;
             font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(251, 192, 45, 0.4);
-            transition: all 0.2s ease;
+            color: #e74c3c;
+            pointer-events: none;
+            animation: floatUp 0.6s ease-out forwards;
         }
 
-        .btn:hover {
-            background: #f9a825;
-            transform: scale(1.05);
-            box-shadow: 0 7px 20px rgba(251, 192, 45, 0.6);
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) translateY(-100px) scale(1.2);
+            }
         }
 
-        .btn:active {
-            transform: scale(0.98);
+        .level-text {
+            font-size: 1rem;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-top: 10px;
         }
 
         footer {
-            margin-top: 30px;
-            font-size: 0.85rem;
-            color: #9e9e9e;
+            margin-top: 25px;
+            font-size: 0.8rem;
+            color: #7f8c8d;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Кот-Ромашка</h1>
-        <div class="subtitle">мяу</div>
+        <h1>Тапай картинку!</h1>
+        <div class="level-text" id="level">Звание: Новичок</div>
         
-        <div class="image-container">
-            <!-- Ссылка на исходную картинку из вашего запроса -->
-            <img src="котромашка.jpg" alt="Желтый кот-ромашка" class="cat-flower-img">
+        <div class="counter-container" id="counter">0</div>
+        
+        <div class="click-area" id="clickZone">
+            <!-- В src="ИМЯ" укажите точное название вашей картинки на GitHub -->
+            <img src="котромашка.jpg" alt="Картинка для кликера" class="click-image" id="targetImg">
         </div>
-
-        <div class="fact-box">
-            <p id="quote">"Я просто цвету и радую этот мир. Не нужно меня срывать, лучше погладь по лепесткам."</p>
-        </div>
-
-        <button class="btn" onclick="generateQuote()">Узнать мысли кота</button>
     </div>
 
-    <footer>© 2026 Культ Желтого Кота. Сделано с любовью и ромашками.</footer>
+    <footer>Создано на базе GitHub Pages</footer>
 
     <script>
-        const quotes = [
-            "Я просто цвету и радую этот мир. Не нужно меня срывать, лучше погладь по лепесткам.",
-            "Любит... Не любит... Конечно любит! Я же кот.",
-            "Календула? Одуванчик? Нет, я чистокровная Ромашка кусячьего вида.",
-            "Фотосинтез идет успешно, когда в миске есть влажный корм.",
-            "Пчелы постоянно путают меня с цветком и очень удивляются, когда я говорю 'Мяу'."
-        ];
+        let count = 0;
+        const counterElement = document.getElementById('counter');
+        const levelElement = document.getElementById('level');
+        const clickZone = document.getElementById('clickZone');
 
-        function generateQuote() {
-            const quoteElement = document.getElementById('quote');
-            let randomQuote;
-            
-            // Чтобы цитаты не повторялись дважды подряд
-            do {
-                randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-            } while (randomQuote === quoteElement.innerText);
+        clickZone.addEventListener('click', (e) => {
+            // Увеличиваем счетчик
+            count++;
+            counterElement.innerText = count;
 
-            quoteElement.style.opacity = 0;
+            // Обновляем звание в зависимости от кликов
+            updateLevel();
+
+            // Создаем красивую всплывающую цифру +1 в месте клика
+            createFloatingText(e);
+        });
+
+        function updateLevel() {
+            if (count >= 500) {
+                levelElement.innerText = "Звание: Бог Клик-Мастер 👑";
+                levelElement.style.color = "#ef4444";
+            } else if (count >= 100) {
+                levelElement.innerText = "Звание: Продвинутый Тапер ⚡";
+                levelElement.style.color = "#f59e0b";
+            } else if (count >= 30) {
+                levelElement.innerText = "Звание: Любитель 🎯";
+                levelElement.style.color = "#10b981";
+            }
+        }
+
+        function createFloatingText(e) {
+            const rect = clickZone.getBoundingClientRect();
+            // Считаем координаты клика относительно картинки
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const text = document.createElement('div');
+            text.className = 'floating-text';
+            text.innerText = '+1';
+            text.style.left = `${x}px`;
+            text.style.top = `${y}px`;
+
+            clickZone.appendChild(text);
+
+            // Удаляем элемент после завершения анимации
             setTimeout(() => {
-                quoteElement.innerText = randomQuote;
-                quoteElement.style.opacity = 1;
-            }, 150);
+                text.remove();
+            }, 600);
         }
     </script>
 </body>
